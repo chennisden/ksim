@@ -5,6 +5,7 @@ import logging
 import os
 from typing import Any
 
+import jax as j
 import mediapy as media
 import numpy as np
 import wandb
@@ -40,6 +41,9 @@ def play(config: dict[str, Any], n_steps: int, render_every: int, width: int, he
         exclude_current_positions_from_observation=config.get("exclude_current_positions_from_observation", True),
         log_reward_breakdown=config.get("log_reward_breakdown", True),
     )
+    # Reset environment
+    rng = j.random.PRNGKey(0)
+    env.reset(rng)
 
     logger.info(
         "Loaded environment %s with env.observation_size: %s and env.action_size: %s",

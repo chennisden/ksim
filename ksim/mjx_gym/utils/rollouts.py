@@ -123,6 +123,7 @@ def render_mujoco_rollout(
         act_rng, seed = jax.random.split(rng)
         obs = env._get_obs(mjx.put_data(model, data), ctrl)
         # TODO: implement methods in envs that avoid having to use mjx in a hacky way...
+        print(obs)
         ctrl, _ = inference_fn(obs, act_rng)
         data.ctrl = ctrl
         for _ in range(env._n_frames):
