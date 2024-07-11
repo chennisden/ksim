@@ -76,6 +76,8 @@
       <joint name="root_y" type="slide" axis="0 1 0" limited="false"/>
       <joint name="root_z" type="slide" axis="0 0 1" limited="false"/>
       <joint name="root_ball" type="ball" limited="false"/>
+      <camera name="front" pos="0 -3 1" xyaxes="1 0 0 0 1 2" mode="trackcom"/>
+			<camera name="side" pos="-2.893 -1.330 0.757" xyaxes="0.405 -0.914 0.000 0.419 0.186 0.889" mode="trackcom"/>
       <site name="imu" size="0.01" pos="0 0 0"/>
       <geom type="mesh" rgba="0.615686 0.811765 0.929412 1" mesh="leg_assembly_left_1_leg_part_1_2_simple" class="visualgeom"/>
       <geom type="mesh" rgba="0.615686 0.811765 0.929412 1" mesh="leg_assembly_left_1_leg_part_1_2_simple" contype="0" conaffinity="0" group="1" density="0"/>
