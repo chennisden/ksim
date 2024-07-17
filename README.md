@@ -109,14 +109,17 @@ Getting Stompy to walk in MJX is a challenging task, and we encourage the open s
   <source alt="Stompy Standing" src="assets/stompy_standing.mp4" type="video/mp4">
 </video>
 
-# Livestreaming
+# Headless livestreaming
 
 For setting up headless streaming, export the following setup variables and install `xvfb`:
 ```bash
 export DISPLAY=:0
 export MUJOCO_GL=egl
 install xvfb
+Xvfb :0 -screen 0 1024x768x24 &
 ```
+
+For simplication, refer to `run.sh` in mjx_gym.
 
 ### Running from SLURM Cluster
 To run from a SLURM cluster (e.g. the K-Scale Andromeda cluster), cd to /mjx_gym/ and run:
