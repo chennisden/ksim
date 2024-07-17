@@ -30,8 +30,7 @@ class StompyEnv(PipelineEnv):
         log_reward_breakdown: bool = True,
         **kwargs: Unpack[EnvKwargs],
     ) -> None:
-        # path = os.getenv("MODEL_DIR", "") + "/stompy/stompy_armless.xml"
-        path = "/home/awu/ksim/ksim/assets/inertia_legs/legs.xml"
+        path = os.getenv("MODEL_DIR", "") + "/assets/inertia_legs/legs.xml"
         mj_model = mujoco.MjModel.from_xml_path(path)
         mj_model.opt.solver = mujoco.mjtSolver.mjSOL_CG
         mj_model.opt.iterations = 6
