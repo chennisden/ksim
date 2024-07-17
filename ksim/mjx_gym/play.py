@@ -26,12 +26,11 @@ os.environ["PYOPENGL_PLATFORM"] = "osmesa"
 os.environ["MESA_GL_VERSION_OVERRIDE"] = "3.3"
 
 
-def play(config: dict[str, Any], n_steps: int, render_every: int, width: int, height: int) -> None:
-    if not args.twitch_stream_key:
-        wandb.init(
-            project=config.get("project_name", "robotic_locomotion_training") + "_test",
-            name=config.get("experiment_name", "ppo-training") + "_test",
-        )
+def play(config: dict[str, Any], n_steps: int, render_every: int, width: int, height: int, twitch_stream_key: str) -> None:
+    wandb.init(
+        project=config.get("project_name", "robotic_locomotion_training") + "_test",
+        name=config.get("experiment_name", "ppo-training") + "_test",
+    )
 
     # Load environment
     env = get_env(
@@ -83,13 +82,13 @@ def play(config: dict[str, Any], n_steps: int, render_every: int, width: int, he
 
     # rolling out a trajectory
     if args.use_mujoco:
-        if args.twitch_stream_key:
-            stream_mujoco_rollout(env, inference_fn, render_every, width=width, height=height, twitch_stream_key=args.twitch_stream_key)
+        if args.stream:
+            stream_mujoco_rollout(env, inference_fn, render_every, width=width, height=height, twitch_stream_key=twitch_stream_key)
         else:
             images_thwc = render_mujoco_rollout(env, inference_fn, n_steps, render_every, width=width, height=height)
     else:
-        if args.twitch_stream_key:
-            stream_mjx_rollout(env, inference_fn, render_every, width=width, height=height, twitch_stream_key=args.twitch_stream_key)
+        if args.stream:
+            stream_mjx_rollout(env, inference_fn, render_every, width=width, height=height, twitch_stream_key=twitch_stream_key)
         else:
             images_thwc = render_mjx_rollout(env, inference_fn, n_steps, render_every, width=width, height=height)
     print(f"Rolled out {len(images_thwc)} steps")
@@ -111,6 +110,7 @@ if __name__ == "__main__":
     parser = argparse.ArgumentParser(description="Run PPO training with specified config file.")
     parser.add_argument("--config", type=str, required=True, help="Path to the config YAML file")
     parser.add_argument("--use_mujoco", action="store_true", help="Use mujoco instead of mjx for rendering")
+    parser.add_argument("--stream", action="store_true", help="Stream video output")
     parser.add_argument("--twitch_stream_key", type=str, required=False, help="Twitch stream key")
     parser.add_argument("--params_path", type=str, default=None, help="Path to the params file")
     parser.add_argument("--n_steps", type=int, default=1000, help="Number of steps to rollout")
@@ -122,4 +122,4 @@ if __name__ == "__main__":
     # Load config file
     with open(args.config, "r") as file:
         config = yaml.safe_load(file)
-    play(config, args.n_steps, args.render_every, args.width, args.height)
+    play(config, args.n_steps, args.render_every, args.width, args.height, args.twitch_stream_key)
