@@ -1,0 +1,6 @@
+<mujoco model="legs_kitchen">
+	<include file="visual.xml"/>
+	<include file="floor.xml"/>
+	<include file="legs.xml"/>
+	<include file="kitchen.xml"/>
+</mujoco>
