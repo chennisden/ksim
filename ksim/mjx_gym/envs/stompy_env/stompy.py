@@ -30,7 +30,7 @@ class StompyEnv(PipelineEnv):
         log_reward_breakdown: bool = True,
         **kwargs: Unpack[EnvKwargs],
     ) -> None:
-        path = os.getenv("MODEL_DIR", "") + "/stompy/stompy_armless.xml"
+        path = os.getenv("MODEL_DIR", "") + "/stompy/stompy.xml"
         mj_model = mujoco.MjModel.from_xml_path(path)
         mj_model.opt.solver = mujoco.mjtSolver.mjSOL_CG
         mj_model.opt.iterations = 6
@@ -50,6 +50,7 @@ class StompyEnv(PipelineEnv):
         self._exclude_current_positions_from_observation = exclude_current_positions_from_observation
         self._log_reward_breakdown = log_reward_breakdown
 
+        print("initial_qpos", mj_model.keyframe("default").qpos)
         self.initial_qpos = mj_model.keyframe("default").qpos
         self.reward_fn = get_reward_fn(self._reward_params, self.dt, include_reward_breakdown=True)
 
@@ -69,7 +70,7 @@ class StompyEnv(PipelineEnv):
         qvel = jax.random.uniform(rng2, (self.sys.nv,), minval=low, maxval=hi)
 
         mjx_state = self.pipeline_init(qpos, qvel)
-        assert type(mjx_state) == mjxState, f"mjx_state is of type {type(mjx_state)}"
+        assert isinstance(mjx_state, mjxState), f"mjx_state is of type {type(mjx_state)}"
 
         obs = self._get_obs(mjx_state, jp.zeros(self.sys.nu))
         reward, done, zero = jp.zeros(3)
@@ -101,8 +102,8 @@ class StompyEnv(PipelineEnv):
 
         next_mjx_state = self.pipeline_step(mjx_state, action)
 
-        assert type(next_mjx_state) == mjxState, f"next_mjx_state is of type {type(next_mjx_state)}"
-        assert type(mjx_state) == mjxState, f"mjx_state is of type {type(mjx_state)}"
+        assert isinstance(next_mjx_state, mjxState), f"next_mjx_state is of type {type(next_mjx_state)}"
+        assert isinstance(mjx_state, mjxState), f"mjx_state is of type {type(mjx_state)}"
         # mlutz: from what I've seen, .pipeline_state and .pipeline_step(...)
         # actually return an brax.mjx.base.State object however, the type
         # hinting suggests that it should return a brax.base.State object
