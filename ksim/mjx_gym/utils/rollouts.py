@@ -396,7 +396,7 @@ def stream_mujoco_rollout(
 
 def render_random_rollout(
     env: mujoco.MjModel,
-    n_steps: int = 100,
+    n_steps: int = 1000,
     render_every: int = 2,
     seed: int = 0,
     width: int = 320,
@@ -424,10 +424,10 @@ def render_random_rollout(
 
     images: list[np.ndarray] = []
     seed = jax.random.PRNGKey(seed)
+    env.reset(seed)
     for step in tqdm(range(n_steps)):
         # collect random actions
         ctrl = jax.random.uniform(seed, (model.nu,), minval=-1, maxval=1)
-        print(ctrl)
         data.ctrl = ctrl
         for _ in range(env._n_frames):
             mujoco.mj_step(model, data)
