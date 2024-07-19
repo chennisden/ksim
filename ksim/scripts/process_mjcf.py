@@ -327,10 +327,10 @@ class Sim2SimRobot(mjcf.Robot):
             [
                 ET.Element("framequat", name="orientation", objtype="site", noise="0.001", objname="imu"),
                 ET.Element("gyro", name="angular-velocity", site="imu", noise="0.005", cutoff="34.9"),
-                #         # ET.Element("framepos", name="position", objtype="site", noise="0.001", objname="imu"),
-                #         # ET.Element("velocimeter", name="linear-velocity", site="imu", noise="0.001", cutoff="30"),
-                #         # ET.Element("accelerometer", name="linear-acceleration", site="imu", noise="0.005", cutoff="157"),
-                #         # ET.Element("magnetometer", name="magnetometer", site="imu"),
+                # ET.Element("framepos", name="position", objtype="site", noise="0.001", objname="imu"),
+                # ET.Element("velocimeter", name="linear-velocity", site="imu", noise="0.001", cutoff="30"),
+                # ET.Element("accelerometer", name="linear-acceleration", site="imu", noise="0.005", cutoff="157"),
+                # ET.Element("magnetometer", name="magnetometer", site="imu"),
             ]
         )
 
