@@ -1,4 +1,4 @@
-export MODEL_DIR=$HOME/ksim/ksim # This assumes you cloned the main ksim repo in $HOME; adjust if this is not the case
+export MODEL_DIR=$HOME/ksim/ksim/assets # This assumes you cloned the main ksim repo in $HOME; adjust if this is not the case
 source activate pytorch
 export DISPLAY=:0
 export MUJOCO_GL=egl
